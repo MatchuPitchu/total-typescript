@@ -1,33 +1,35 @@
 /**
- * It's important to understand the terminology around unions:
- *
- * One of the type declarations below is a union.
- * One of the type declarations below is a discriminated union.
- * One of the type declarations below is an enum.
- *
- * Which is which?
+ * Discriminated union types have common properties which are used to
+ * differentiate between members of the union. In this case, `type`
+ * is the discriminator.
  */
-
 type A =
   | {
-      type: "a";
+      type: 'a';
       a: string;
     }
   | {
-      type: "b";
+      type: 'b';
       b: string;
     }
   | {
-      type: "c";
+      type: 'c';
       c: string;
     };
 
-type B = "a" | "b" | "c";
+const getUnion = (result: A) => {
+  if (result.type === 'a') {
+    return result.a;
+  }
+  // ...
+};
 
+// string literal union type
+type B = 'a' | 'b' | 'c';
+
+// enum
 enum C {
-  A = "a",
-  B = "b",
-  C = "c",
+  A = 'a',
+  B = 'b',
+  C = 'c',
 }
-
-export {};
