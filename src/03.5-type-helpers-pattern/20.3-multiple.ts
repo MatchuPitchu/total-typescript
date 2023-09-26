@@ -1,5 +1,8 @@
-import { Equal, Expect } from "../helpers/type-utils";
+import { Equal, Expect } from '../helpers/type-utils';
 
+/**
+ * Using the comma operator between TData and TError allows us to specify multiple generics.
+ */
 type CreateDataShape<TData, TError> = {
   data: TData;
   error: TError;

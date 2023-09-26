@@ -1,6 +1,11 @@
-import { Equal, Expect } from "../helpers/type-utils";
+import { Equal, Expect } from '../helpers/type-utils';
 
-type CreateDataShape<TData, TError> = {
+type MaybeError = Error | undefined;
+
+/**
+ * Updating CreateDataShape to have TError = undefined tells TypeScript that the second argument doesn't need to be passed in:
+ */
+type CreateDataShape<TData, TError extends MaybeError = undefined> = {
   data: TData;
   error: TError;
 };
