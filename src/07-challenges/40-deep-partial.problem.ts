@@ -1,4 +1,4 @@
-import { Equal, Expect } from "../helpers/type-utils";
+import { Equal, Expect } from '../helpers/type-utils';
 
 type DeepPartial<T> = unknown;
 
@@ -38,5 +38,5 @@ type tests = [
         };
       }
     >
-  >
+  >,
 ];
