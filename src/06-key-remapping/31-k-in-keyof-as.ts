@@ -1,4 +1,4 @@
-import { Equal, Expect } from "../helpers/type-utils";
+import { Equal, Expect } from '../helpers/type-utils';
 
 interface Attributes {
   firstName: string;
@@ -7,6 +7,7 @@ interface Attributes {
 }
 
 type AttributeGetters = {
+  // You can remap keys in mapped types using the "as" keyword.
   [K in keyof Attributes as `get${Capitalize<K>}`]: () => Attributes[K];
 };
 
