@@ -1,6 +1,15 @@
 import { Equal, Expect } from '../helpers/type-utils';
 
-type DeepPartial<T> = unknown;
+/**
+ * Use Recursion and Mapped Types to Create a Type Helper
+ * We can recursively reference DeepPartial inside of itself.
+ *
+ * 1) { [K in keyof T]?: DeepPartial<T[K]> } -> creates the deep nested object again, but every key becomes optional
+ * 2) T extends Array<infer U> ? Array<DeepPartial<U>> -> handles the case when T is an array
+ */
+type DeepPartial<T> = T extends Array<infer U>
+  ? Array<DeepPartial<U>>
+  : { [K in keyof T]?: DeepPartial<T[K]> };
 
 type MyType = {
   a: string;
