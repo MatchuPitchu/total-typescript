@@ -1,5 +1,3 @@
-<a href="https://totaltypescript.com"><img src="./og-image-new.png" /></a>
-
 ## Quickstart
 
 Clone this repo or [open in Gitpod](https://gitpod.io/#https://github.com/total-typescript/type-transformations-tutorial).
