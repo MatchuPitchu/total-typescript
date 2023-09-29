@@ -1,10 +1,13 @@
 import { expect, it } from 'vitest';
 import { Equal, Expect } from '../../helpers/type-utils';
 
+/**
+ * Add Object Property Constraints to a Generic
+ */
 export const concatenateFirstNameAndLastName = <
-  T extends { firstName: string; lastName: string },
+  TUser extends { firstName: string; lastName: string },
 >(
-  user: T
+  user: TUser
 ) => {
   return {
     ...user,
