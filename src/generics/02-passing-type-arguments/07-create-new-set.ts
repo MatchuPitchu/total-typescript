@@ -6,6 +6,7 @@ export const createSet = <T>() => {
 
 const stringSet = createSet<string>();
 const numberSet = createSet<number>();
+// if no type argument is provided, unknown would be the default type argument
 const unknownSet = createSet();
 
 type tests = [

@@ -1,9 +1,13 @@
 import { expect, it } from 'vitest';
 import { Equal, Expect } from '../../helpers/type-utils';
 
+/**
+ * Use Generics to Type a Fetch Request
+ */
 const fetchData = async <TData>(url: string) => {
-  let data: TData = await fetch(url).then((response) => response.json());
-
+  const data: TData = await fetch(url).then((response) => response.json());
+  // V2: works, but data becomes Awaited<TData>, no the same as the intended type TData
+  const data2 = await fetch(url).then<TData>((response) => response.json());
   return data;
 };
 
