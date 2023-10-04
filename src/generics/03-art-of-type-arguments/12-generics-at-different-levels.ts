@@ -1,9 +1,32 @@
 import { expect, it, describe } from 'vitest';
 import { Equal, Expect } from '../../helpers/type-utils';
 
-export const getHomePageFeatureFlags = (
-  config: unknown,
-  override: (flags: unknown) => unknown
+/**
+ * Represent Generics at the Lowest Level
+ * Hint: when working with generics, try to represent the generic type argument a low level thing (NOT the whole thing, where you should drill down)
+ * Here using HomePageFlags directly as the generic is an elegant solution since it is the argument for the override function.
+ */
+export const getHomePageFeatureFlags = <HomePageFlags>(
+  config: { rawConfig: { featureFlags: { homePage: HomePageFlags } } },
+  override: (flags: HomePageFlags) => HomePageFlags
+) => {
+  return override(config.rawConfig.featureFlags.homePage);
+};
+
+// Version 2: cumbersome solution
+export const getHomePageFeatureFlags2 = <
+  TConfig extends {
+    rawConfig: {
+      featureFlags: {
+        homePage: any;
+      };
+    };
+  },
+>(
+  config: TConfig,
+  override: (
+    flags: TConfig['rawConfig']['featureFlags']['homePage']
+  ) => TConfig['rawConfig']['featureFlags']['homePage']
 ) => {
   return override(config.rawConfig.featureFlags.homePage);
 };
