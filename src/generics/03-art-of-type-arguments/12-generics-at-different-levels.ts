@@ -13,7 +13,7 @@ export const getHomePageFeatureFlags = <HomePageFlags>(
   return override(config.rawConfig.featureFlags.homePage);
 };
 
-// Version 2: cumbersome solution
+// Solution 2: cumbersome solution
 export const getHomePageFeatureFlags2 = <
   TConfig extends {
     rawConfig: {

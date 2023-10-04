@@ -2,12 +2,17 @@ import { expect, it } from 'vitest';
 import { Equal, Expect } from '../../helpers/type-utils';
 
 /**
- * There are two possible solutions to this problem - and it's
- * to do with the way you specify the generic. Can you get
- * both solutions?
+ * Typing Object Keys
+ *
+ * Solution 1: represent the generic as the entire object in the generic slot.
  */
-const typedObjectKeys = (obj: unknown) => {
-  return Object.keys(obj);
+const typedObjectKeys = <TObj extends object>(obj: TObj) => {
+  return Object.keys(obj) as (keyof TObj)[];
+};
+
+// Solution 2: have the generic only represent the keys
+const typedObjectKeys2 = <TKey extends string>(obj: Record<TKey, any>) => {
+  return Object.keys(obj) as TKey[];
 };
 
 it('Should return the keys of the object', () => {

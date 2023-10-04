@@ -1,8 +1,13 @@
 import { expect, it } from 'vitest';
 import { Equal, Expect } from '../../helpers/type-utils';
 
+/**
+ * Constrain a Type Argument to a Function
+ *
+ * Solution 1: 2 generic arguments - With TParams extending an unknown (or any) array, any amount of arguments can correspond to it, and TReturn will be the return
+ */
 const makeSafe =
-  <TParams extends any[], TReturn>(func: (...args: TParams) => TReturn) =>
+  <TParams extends unknown[], TReturn>(func: (...args: TParams) => TReturn) =>
   (
     ...args: TParams
   ):
@@ -29,7 +34,36 @@ const makeSafe =
     }
   };
 
-it('Should return the result on a successful call', () => {
+// Solution 2: 1 generic argument
+const makeSafe2 =
+  <TFunc extends (...args: unknown[]) => ReturnType<TFunc>>(func: TFunc) =>
+  (
+    ...args: Parameters<TFunc>
+  ):
+    | {
+        type: 'success';
+        result: ReturnType<TFunc>;
+      }
+    | {
+        type: 'failure';
+        error: Error;
+      } => {
+    try {
+      const result = func(...args);
+
+      return {
+        type: 'success',
+        result,
+      };
+    } catch (e) {
+      return {
+        type: 'failure',
+        error: e as Error,
+      };
+    }
+  };
+
+it("Should return the result with a { type: 'success' } on a successful call", () => {
   const func = makeSafe(() => 1);
 
   const result = func();
@@ -58,9 +92,7 @@ it('Should return the result on a successful call', () => {
 
 it('Should return the error on a thrown call', () => {
   const func = makeSafe(() => {
-    if (1 > 2) {
-      return '123';
-    }
+    if (1 > 2) return '123';
     throw new Error('Oh dear');
   });
 
@@ -89,15 +121,12 @@ it('Should return the error on a thrown call', () => {
 });
 
 it("Should properly match the function's arguments", () => {
-  const func = makeSafe((a: number, b: string) => {
-    return `${a} ${b}`;
-  });
+  const func = makeSafe((a: number, b: string) => `${a} ${b}`);
+
+  func(1, '1');
 
   // @ts-expect-error
   func();
-
   // @ts-expect-error
   func(1, 1);
-
-  func(1, '1');
 });
