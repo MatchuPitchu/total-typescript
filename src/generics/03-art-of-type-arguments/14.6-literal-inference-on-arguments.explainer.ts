@@ -1,45 +1,44 @@
-// When returning the value only, it infers
-// the literal type
-const acceptsValueOnly = <T>(t: T) => {
-  return t;
-};
+// When returning the value only,
+// it infers the literal type
+const acceptsValueOnly = <T>(t: T) => t;
 
-const result = acceptsValueOnly("a");
+const result = acceptsValueOnly('a');
 //    ^?
 
-const acceptsValueInAnObject = <T>(obj: { input: T }) => {
+const acceptsValueInAnObject = <TValue>(obj: { input: TValue }) => {
   return obj.input;
 };
 
-const result2 = acceptsValueInAnObject({ input: "abc" });
+const result2 = acceptsValueInAnObject({ input: 'abc' });
 //    ^?
 
-const result2WithAsConst = acceptsValueInAnObject({ input: "abc" } as const);
+const asConstObj = { input: 'abc' } as const;
+const result2WithAsConst = acceptsValueInAnObject(asConstObj);
 //    ^?
 
-const acceptsValueInAnObjectFieldWithConstraint = <T extends string>(obj: {
-  input: T;
+const acceptsValueInAnObjectFieldWithConstraint = <TValue extends string>(obj: {
+  input: TValue;
 }) => {
   return obj.input;
 };
 
-const result3 = acceptsValueInAnObjectFieldWithConstraint({ input: "abc" });
+const result3 = acceptsValueInAnObjectFieldWithConstraint({ input: 'abc' });
 //    ^?
 
 const acceptsValueWithObjectConstraint = <
-  T extends {
+  TObj extends {
     input: string;
   },
 >(
-  obj: T,
+  obj: TObj
 ) => {
   return obj.input;
 };
 
-const result4 = acceptsValueWithObjectConstraint({ input: "abc" });
+const result4 = acceptsValueWithObjectConstraint({ input: 'abc' });
+//    ^?
 
-const result4WithAsConst = acceptsValueWithObjectConstraint({
-  input: "abc",
-} as const);
+const result4WithAsConst = acceptsValueWithObjectConstraint(asConstObj);
+//    ^?
 
 export {};

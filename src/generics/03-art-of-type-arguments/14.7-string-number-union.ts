@@ -1,6 +1,12 @@
 import { Equal, Expect } from '../../helpers/type-utils';
 
-export const inferItemLiteral = <T>(t: T) => {
+/**
+ * Accepting Multiple Literal Types
+ *
+ * Adding T extends string | number, will stop anything else from being passed in,
+ * while getting us inference on the strings and numbers that are passed in
+ */
+export const inferItemLiteral = <T extends string | number>(t: T) => {
   return {
     output: t,
   };

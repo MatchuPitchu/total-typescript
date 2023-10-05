@@ -1,7 +1,20 @@
 import { expect, it } from 'vitest';
 import { Equal, Expect } from '../../helpers/type-utils';
 
+/**
+ * Two Approaches to Working with Class Names
+ *
+ * Solution 1: use TObj as a Record of keyof TObj for the key and string for the value
+ * Solution 2: add TVariant which extends string
+ */
 const createClassNamesFactory =
+  <TObj extends Record<keyof TObj, string>>(classes: TObj) =>
+  (type: keyof TObj, ...otherClasses: string[]) => {
+    const classList = [classes[type], ...otherClasses];
+    return classList.join(' ');
+  };
+
+const createClassNamesFactory2 =
   <TVariant extends string>(classes: Record<TVariant, string>) =>
   (type: TVariant, ...otherClasses: string[]) => {
     const classList = [classes[type], ...otherClasses];
