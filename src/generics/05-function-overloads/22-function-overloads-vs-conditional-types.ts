@@ -1,9 +1,18 @@
-import { describe, expect, it } from 'vitest';
+import { expect, it } from 'vitest';
 import { Equal, Expect } from '../../helpers/type-utils';
 
-function youSayGoodbyeISayHello(greeting: 'goodbye'): 'hello';
+/**
+ * Match Return Types with Function Overloads
+ *
+ * One of the most important things to know about function overloads is
+ * that the implementation signatures of functions are not exposed outside of the function.
+ *
+ * Notice: Add return type to the implementation signature (the lowest version)
+ * which matches the overloads to increase type safety when using function overloads
+ */
 function youSayGoodbyeISayHello(greeting: 'hello'): 'goodbye';
-function youSayGoodbyeISayHello(greeting: 'goodbye' | 'hello') {
+function youSayGoodbyeISayHello(greeting: 'goodbye'): 'hello';
+function youSayGoodbyeISayHello(greeting: string): 'goodbye' | 'hello' {
   return greeting === 'goodbye' ? 'hello' : 'goodbye';
 }
 

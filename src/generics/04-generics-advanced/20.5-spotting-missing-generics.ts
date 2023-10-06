@@ -1,6 +1,13 @@
 import { Equal, Expect } from '../../helpers/type-utils';
 
-const getValue = <TObj>(obj: TObj, key: keyof TObj) => {
+/**
+ * Improving Type Inference with Additional Generics
+ *
+ * To infer a specific key, we need a second generic which will be called TKey.
+ *
+ * Notice: If you're not getting the inference you want, check to see if you have any missing generics.
+ */
+const getValue = <TObj, TKey extends keyof TObj>(obj: TObj, key: TKey) => {
   return obj[key];
 };
 

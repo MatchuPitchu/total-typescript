@@ -13,9 +13,19 @@ interface AdminPrivileges extends UserPrivileges {
   sitesCanDelete: string[];
 }
 
+/**
+ * Specifying Types for an Overloaded Function
+ *
+ * Problem: With this return type of the function implementation,
+ * the wished return is not type safe. You could e.g. `sitesCanDelete` to `user` role
+ * Notice: It's not easy to be type safe with only function overloads.
+ */
 function getRolePrivileges(role: 'admin'): AdminPrivileges;
 function getRolePrivileges(role: 'user'): UserPrivileges;
-function getRolePrivileges(role: string): AnonymousPrivileges {
+function getRolePrivileges(role: string): AnonymousPrivileges;
+function getRolePrivileges(
+  role: string
+): AnonymousPrivileges | AdminPrivileges | UserPrivileges {
   switch (role) {
     case 'admin':
       return {

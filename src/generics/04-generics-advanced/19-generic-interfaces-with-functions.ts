@@ -1,11 +1,27 @@
 import { expect, it } from 'vitest';
 import { Equal, Expect } from '../../helpers/type-utils';
 
+/**
+ * Understanding Generics at Different Levels of Functions
+ *
+ * The right place to define TTransformed is directly on the clone function.
+ * So TTransformed is infered when clone fn is called.
+ *
+ * Notice: When you're inside of an interface or type, you can add a function that has a generic on it.
+ * This is a useful pattern for doing any sort of transformation.
+ * It also forms the basis for the Builder Pattern that we will see in future exercises.
+ */
 export interface Cache<T> {
   get: (key: string) => T | undefined;
   set: (key: string, value: T) => void;
-  // You can fix this by only changing the line below!
-  clone: (transform: (elem: unknown) => unknown) => Cache<unknown>;
+  // short solution
+  clone: <TTransformed>(
+    transform: (elem: T) => TTransformed
+  ) => Cache<TTransformed>;
+  // longer solution
+  // clone: <TFunc extends (elem: T) => ReturnType<TFunc>>(
+  //   transform: TFunc
+  // ) => Cache<ReturnType<TFunc>>;
 }
 
 const createCache = <T>(initialCache?: Record<string, T>): Cache<T> => {
