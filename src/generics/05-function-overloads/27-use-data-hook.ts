@@ -1,7 +1,22 @@
 import { it } from 'vitest';
 import { Equal, Expect } from '../../helpers/type-utils';
 
-// You'll need to use function overloads to figure this out!
+/**
+ * Split Functions Into Two Different Call Signatures
+ *
+ * a) call signature without initialData
+ * b) call signature with initialData
+ *
+ * Function overloads are useful when building things that have an optional property,
+ * but are actually two different call signatures. If they had the same type signature,
+ * then it wouldn't make sense to split them up.
+ */
+function useData<T>(params: { fetchData: () => Promise<T> }): {
+  getData: () => T | undefined;
+};
+function useData<T>(params: { fetchData: () => Promise<T>; initialData: T }): {
+  getData: () => T;
+};
 function useData<T>(params: { fetchData: () => Promise<T>; initialData?: T }): {
   getData: () => T | undefined;
 } {
