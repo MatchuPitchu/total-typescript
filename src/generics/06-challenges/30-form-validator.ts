@@ -1,23 +1,30 @@
 import { expect, it } from 'vitest';
 import { Equal, Expect } from '../../helpers/type-utils';
 
-const makeFormValidatorFactory = (validators: unknown) => (config: unknown) => {
-  return (values: unknown) => {
-    const errors = {} as any;
+/**
+ * Add Strong Typing and Proper Error Handling to a Form Validator
+ */
+const makeFormValidatorFactory =
+  <TValidatorKeys extends string>(
+    validators: Record<TValidatorKeys, (value: string) => string | void>
+  ) =>
+  <TObjKeys extends string>(config: Record<TObjKeys, TValidatorKeys[]>) => {
+    return (values: Record<TObjKeys, string>) => {
+      const errors = {} as Record<TObjKeys, string | undefined>;
 
-    for (const key in config) {
-      for (const validator of config[key]) {
-        const error = validators[validator](values[key]);
-        if (error) {
-          errors[key] = error;
-          break;
+      for (const key in config) {
+        for (const validator of config[key]) {
+          const error = validators[validator](values[key]);
+          if (error) {
+            errors[key] = error;
+            break;
+          }
         }
       }
-    }
 
-    return errors;
+      return errors;
+    };
   };
-};
 
 const createFormValidator = makeFormValidatorFactory({
   required: (value) => {
