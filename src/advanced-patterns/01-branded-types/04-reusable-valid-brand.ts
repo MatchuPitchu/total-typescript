@@ -1,19 +1,24 @@
 import { it } from 'vitest';
 import { Brand } from '../../helpers/Brand';
 
-type Valid<T> = unknown;
+type Valid<T> = Brand<T, 'Valid'>;
 
 interface PasswordValues {
   password: string;
   confirmPassword: string;
 }
 
+/**
+ * Combine Type Helpers with Branded Types
+ *
+ * The T that is being passed into Valid should in turn be passed into the Brand type helper.
+ */
 const validatePassword = (values: PasswordValues) => {
   if (values.password !== values.confirmPassword) {
     throw new Error('Passwords do not match');
   }
 
-  return values;
+  return values as Valid<PasswordValues>;
 };
 
 const createUserOnApi = (values: Valid<PasswordValues>) => {

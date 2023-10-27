@@ -4,6 +4,14 @@ import { Brand } from '../../helpers/Brand';
 type Password = Brand<string, 'Password'>;
 type Email = Brand<string, 'Email'>;
 
+/**
+ * Assigning Branded Types to Values
+ *
+ * The right way to think about this solution is that validateValues is the way
+ * we turn our values from raw values into things that we know are Email and Password.
+ *
+ * With this change we can really trust that the values we get back will be valid, no matter where they get passed in our application.
+ */
 export const validateValues = (values: { email: string; password: string }) => {
   if (!values.email.includes('@')) {
     throw new Error('Email invalid');
@@ -13,8 +21,8 @@ export const validateValues = (values: { email: string; password: string }) => {
   }
 
   return {
-    email: values.email,
-    password: values.password,
+    email: values.email as Email,
+    password: values.password as Password,
   };
 };
 
