@@ -7,8 +7,14 @@ interface User {
   maxConversionAmount: number;
 }
 
-type ConvertedAmount = Brand<number, 'ConvertedAmount'>;
-type AuthorizedUser = Brand<User, 'CurrencyAuthorizedUser'>;
+/**
+ * Using Branded Types to Validate Code Logic
+ *
+ * TS errors are thrown when functions are called with
+ * incorrect data (not converted amount or not authorized user)
+ */
+type ConvertedAmount = Brand<number, 'ConvertedCurrency'>;
+type AuthorizedUser = Brand<User, 'AuthorizedUser'>;
 
 // Mocks a function that uses an API to convert
 // One currency to another
@@ -17,7 +23,15 @@ const getConversionRateFromApi = async (
   from: string,
   to: string
 ) => {
-  return Promise.resolve((amount * 0.82) as ConvertedAmount);
+  return Promise.resolve(amount * 0.82) as Promise<ConvertedAmount>;
+};
+
+const ensureUserCanConvert = (user: User, amount: ConvertedAmount) => {
+  if (user.maxConversionAmount < amount) {
+    throw new Error('User cannot convert currency');
+  }
+
+  return user as AuthorizedUser;
 };
 
 // Mocks a function which actually performs the conversion
@@ -26,17 +40,6 @@ const performConversion = async (
   to: string,
   amount: ConvertedAmount
 ) => {};
-
-const ensureUserCanConvert = (
-  user: User,
-  amount: ConvertedAmount
-): AuthorizedUser => {
-  if (user.maxConversionAmount < amount) {
-    throw new Error('User cannot convert currency');
-  }
-
-  return user as AuthorizedUser;
-};
 
 describe('Possible implementations', () => {
   it('Should error if you do not authorize the user first', () => {

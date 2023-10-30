@@ -16,13 +16,23 @@ interface Post {
 }
 
 /**
- * Change this type definition! We should be able to
- * add users and posts to the db by their id.
+ * Indexing an Object with Branded Types
  *
- * You'll need an index signature of some kind - or maybe
- * two!
+ * Usually if we would index into an object using something like this:
+ * const db: { [index: string]: Post | User }
+ * is the same as
+ * const db: Record<string, Post | User>
+ *
+ * Solution is two index signatures with two different brands
+ * that return two different things!
  */
-const db: Record<string, User | Post> = {};
+const db: {
+  [id: UserId]: User;
+  [id: PostId]: Post;
+} = {};
+
+// OR
+// const db2: Record<UserId, User> & Record<PostId, Post>;
 
 it('Should let you add users and posts to the db by their id', () => {
   const postId = 'post_1' as PostId;
