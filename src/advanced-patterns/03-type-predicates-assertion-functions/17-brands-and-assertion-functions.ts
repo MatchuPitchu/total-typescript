@@ -8,6 +8,11 @@ interface PasswordValues {
   confirmPassword: string;
 }
 
+/**
+ * Validate Types with Brands and Assertions
+ * - just like the type predicate version of the previous exercise
+ *
+ */
 function assertIsValidPassword(
   values: PasswordValues
 ): asserts values is Valid<PasswordValues> {
@@ -29,6 +34,7 @@ it('Should fail if you do not validate the passwords before calling createUserOn
 
 it('Should succeed if you DO validate the passwords before calling createUserOnApi', () => {
   const onSubmitHandler = (values: PasswordValues) => {
+    // if `assertIsValidPassword(values)` is commented out, then type would be wrong for `createUserOnApi(values)`
     assertIsValidPassword(values);
     createUserOnApi(values);
   };

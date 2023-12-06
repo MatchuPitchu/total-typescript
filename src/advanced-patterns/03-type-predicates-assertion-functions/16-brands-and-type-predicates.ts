@@ -9,9 +9,14 @@ interface PasswordValues {
 }
 
 /**
- * 💡 You'll need to change this function...
+ * Checking for Validity with Brands and Type Predicates
+ *
+ * - Combining type predicate with the brand type means
+ * that we don't need to do any assertions or casting.
  */
-const isValidPassword = (values: PasswordValues) => {
+const isValidPassword = (
+  values: PasswordValues
+): values is Valid<PasswordValues> => {
   if (values.password !== values.confirmPassword) {
     return false;
   }

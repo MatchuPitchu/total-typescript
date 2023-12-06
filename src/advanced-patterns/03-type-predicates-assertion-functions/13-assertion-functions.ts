@@ -15,6 +15,13 @@ interface NormalUser extends User {
   role: 'normal';
 }
 
+/**
+ * Ensure Valid Types with an Assertion Function
+ *
+ * - `asserts` condition says that whatever gets passed into the condition parameter
+ * must be true if the assert returns (because otherwise it would throw an error)
+ * - only works with function keyword
+ */
 function assertUserIsAdmin(
   user: NormalUser | AdminUser
 ): asserts user is AdminUser {

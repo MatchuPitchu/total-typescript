@@ -1,13 +1,25 @@
-import { isBodyElement, isDivElement } from 'fake-external-lib';
+import { isBodyElement, isDivElement } from '../fake-external-lib';
 import { it } from 'vitest';
 import { Equal, Expect } from '../../helpers/type-utils';
 
+// Example with span
+export const isSpanElement = (element: unknown): element is HTMLSpanElement => {
+  return element instanceof HTMLSpanElement;
+};
+
 /**
- * By changing the type definition of this interface,
- * you can fix all the errors below.
+ * Filtering with Type Predicates and Generics
+ *
+ * - isNode should be a type predicate function: needs return type `node is T`
+ * - we can get inference from a type predicate.
+ * - change `isDivElement` with `isSpanElement` to change the expected type for the transform function
  */
 interface DOMNodeExtractorConfig<T, Result> {
-  isNode: (node: unknown) => boolean;
+  /**
+   * Here, `node is T` lets you specify that
+   * isNode takes in a type predicate.
+   */
+  isNode: (node: unknown) => node is T;
   transform: (node: T) => Result;
 }
 
