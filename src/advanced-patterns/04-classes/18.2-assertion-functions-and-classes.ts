@@ -4,13 +4,15 @@ interface User {
   id: string;
 }
 
+/**
+ * Leverage Assertion Functions for Better Inference in Classes
+ */
 export class SDK {
-  loggedInUser?: User;
+  constructor(public loggedInUser?: User) {}
 
-  constructor(loggedInUser?: User) {
-    this.loggedInUser = loggedInUser;
-  }
-
+  /**
+   * V2: asserts this is SDK & { loggedInUser: User }
+   */
   assertIsLoggedIn(): asserts this is this & { loggedInUser: User } {
     if (!this.loggedInUser) {
       throw new Error('Not logged in');
@@ -20,7 +22,11 @@ export class SDK {
   createPost(title: string, body: string) {
     type test1 = Expect<Equal<typeof this.loggedInUser, User | undefined>>;
 
+    this.loggedInUser; // SDK.loggedInUser?: User | undefined
+
     this.assertIsLoggedIn();
+
+    this.loggedInUser; // loggedInUser: User
 
     type test2 = Expect<Equal<typeof this.loggedInUser, User>>;
   }

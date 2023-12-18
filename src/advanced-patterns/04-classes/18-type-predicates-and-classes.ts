@@ -1,5 +1,8 @@
 import { Equal, Expect } from '../../helpers/type-utils';
 
+/**
+ * Simplifying TypeScript with Type Predicates
+ */
 class Form<TValues> {
   error?: string;
 
@@ -8,7 +11,12 @@ class Form<TValues> {
     private validate: (values: TValues) => string | void
   ) {}
 
-  isInvalid() {
+  /**
+   * Use type predicate and expect error of type string if fn return is true
+   *
+   * V2: this is this & { error: string }
+   */
+  isInvalid(): this is Form<TValues> & { error: string } {
     const result = this.validate(this.values);
 
     if (typeof result === 'string') {
