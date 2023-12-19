@@ -1,15 +1,10 @@
-// Colin from Zod explains how using subclasses can make generics
-// look nice in intellisense.
+// Zod is mostly written with classes. There's a base `Z.ZodType` class
+// that pretty much every other class inherits from.
 
-type ZodString = {
-  min: () => any;
-  max: () => any;
-} & ZodType<string, {}>;
+// Colin from Zod explains how using subclasses can
+// make generics look nice in intellisense.
 
-type ZodType<T, ZodDef> = {
-  parse: (input: unknown) => T;
-};
-
-const str: ZodString = {} as any;
+// Zod Documentation: https://zod.dev/
+// Zd string with subclasses example: https://github.com/colinhacks/zod/blob/master/src/types.ts#L569
 
 export {};
