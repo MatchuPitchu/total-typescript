@@ -10,7 +10,7 @@ import { doNotExecute, Equal, Expect } from '../../helpers/type-utils';
  * 2. Take a look at the typings for _.groupBy to
  * see if you can understand them.
  */
-const groupByAge = (array: unknown[]) => {
+const groupByAge = <T extends { age: number }>(array: T[]) => {
   const grouped = _.groupBy(array, 'age');
 
   return grouped;
@@ -18,6 +18,7 @@ const groupByAge = (array: unknown[]) => {
 
 const result = groupByAge([
   {
+    // id: '', // could add other properties that would be infered correctly in `result`
     name: 'John',
     age: 20,
   },
@@ -51,9 +52,7 @@ it('Should group the items by age', () => {
     ],
   });
 
-  type tests = [
-    Expect<Equal<typeof result, _.Dictionary<{ name: string; age: number }[]>>>,
-  ];
+  type tests = [Expect<Equal<typeof result, _.Dictionary<{ name: string; age: number }[]>>>];
 });
 
 it('Should not let you pass in an array of objects NOT containing age', () => {

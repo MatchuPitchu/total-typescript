@@ -1,9 +1,4 @@
-import express, {
-  NextFunction,
-  Request,
-  RequestHandler,
-  Response,
-} from 'express';
+import express, { NextFunction, Request, RequestHandler, Response } from 'express';
 import { Equal, Expect } from '../../helpers/type-utils';
 
 const app = express();
