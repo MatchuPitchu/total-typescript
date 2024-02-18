@@ -1,4 +1,4 @@
-import { fetchUser } from 'fake-external-lib';
+import { fetchUser } from '../fake-external-lib';
 import { Equal, Expect, ExpectExtends } from '../../helpers/type-utils';
 
 /**
@@ -6,9 +6,13 @@ import { Equal, Expect, ExpectExtends } from '../../helpers/type-utils';
  * to extend the types. Extract the types below.
  */
 
-type ParametersOfFetchUser = unknown;
+type FetchUserFunc = typeof fetchUser;
 
-type ReturnTypeOfFetchUserWithFullName = unknown;
+type ParametersOfFetchUser = Parameters<FetchUserFunc>;
+
+type ReturnTypeOfFetchUserWithFullName = Awaited<ReturnType<FetchUserFunc>> & {
+  fullName: string;
+};
 
 export const fetchUserWithFullName = async (
   ...args: ParametersOfFetchUser
