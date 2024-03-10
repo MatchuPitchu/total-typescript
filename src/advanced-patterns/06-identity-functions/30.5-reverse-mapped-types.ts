@@ -1,10 +1,14 @@
 import { Equal, Expect } from '../../helpers/type-utils';
 
-export function makeEventHandlers<T>(obj: {
-  [K in keyof T]: (name: K) => void;
-}) {
-  return obj;
-}
+type EventHandlers<T> = {
+  [Key in keyof T]: (name: Key) => void;
+};
+
+/**
+ * Inference Inception in an Identity Function
+ * The reverse mapped type EventHandlers is used
+ */
+export const makeEventHandlers = <T>(obj: EventHandlers<T>) => obj;
 
 const obj = makeEventHandlers({
   click: (name) => {
