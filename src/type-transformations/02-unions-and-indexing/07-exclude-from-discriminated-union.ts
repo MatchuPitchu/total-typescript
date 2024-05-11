@@ -15,18 +15,12 @@ export type Event =
     };
 
 /**
- * Exclude utility type (reverse of Extract): Exclude<UnionType, ExcludedMembers>
- * Constructs a type by excluding from UnionType all union members that are assignable to ExcludedMembers.
+ * Exclude utility type (reverse of Extract): Exclude<T, U>
+ * Constructs a type by excluding from T those types that are assignable to U
  * type Exclude<T, U> = T extends U ? never : T;
  */
 type NonKeyDownEvents = Exclude<Event, { type: 'keydown' }>;
 
 type tests = [
-  Expect<
-    Equal<
-      NonKeyDownEvents,
-      | { type: 'click'; event: MouseEvent }
-      | { type: 'focus'; event: FocusEvent }
-    >
-  >,
+  Expect<Equal<NonKeyDownEvents, { type: 'click'; event: MouseEvent } | { type: 'focus'; event: FocusEvent }>>,
 ];

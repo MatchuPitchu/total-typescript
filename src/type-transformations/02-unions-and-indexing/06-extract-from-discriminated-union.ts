@@ -17,8 +17,9 @@ export type Event =
     };
 
 /**
- * Extract utility type: Extract<Type, Union>
- * Constructs a type by extracting from Type all union members that are assignable to Union.
+ * Extract utility type: Extract<T, U>
+ * Constructs a type by extracting from T those types that are assignable to U.
+ *
  * type Extract<T, U> = T extends U ? T : never;
  */
 type ClickEvent = Extract<Event, { type: 'click' }>;
